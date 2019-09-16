@@ -1,0 +1,698 @@
+/**
+ * Copyright (c) 2019 TRIALBLAZE PTY. LTD. All rights reserved.
+ *
+ * Created by IntelliJ IDEA.
+ * User: Hamed Yousefi
+ * Date: 7/29/19
+ * Time: 8:17 AM
+ *
+ * Description:
+ *
+ */
+
+syntax = "proto3";
+package trialblaze.api.contracts.message.contract.v1;
+
+import "src/api/message/v1/common.proto";
+
+option go_package = "github.com/trialblaze/contract-grpc-go/pkg/api/message/contract/v1;v1";
+
+//==========Business Messages=========//
+
+message ContractOrder {
+    OrderColumns Column = 1;
+    bool IsDesc = 2;
+}
+
+message ContractFilter {
+    FilterColumns Column = 1;
+    string Value = 2;
+    trialblaze.api.contracts.message.v1.FilterOperation Operation = 3;
+}
+
+message TermsTemplateOrder {
+    OrderColumns Column = 1;
+    bool IsDesc = 2;
+}
+
+message TermsTemplateFilter {
+    FilterColumns Column = 1;
+    string Value = 2;
+    trialblaze.api.contracts.message.v1.FilterOperation Operation = 3;
+}
+
+message SibOrder {
+    OrderColumns Column = 1;
+    bool IsDesc = 2;
+}
+
+message SibFilter {
+    FilterColumns Column = 1;
+    string Value = 2;
+}
+
+enum OrderColumns {
+    STUDY_ORDER = 0;
+    PAYEE_ORDER = 1;
+    SITE_ORDER = 2;
+    NAME_ORDER = 3;
+    COUNTRY_ORDER = 4;
+}
+
+enum FilterColumns {
+    NO_FILTER = 0;
+    SITE_NAME_FILTER = 1;
+    PAYEE_NAME_FILTER = 2;
+    TRIAL_ALIAS_FILTER = 3;
+    USERNAME_FILTER = 4;
+    NAME_FILTER = 5;
+}
+
+message SitePayeeRef {
+    trialblaze.api.contracts.message.v1.UUID PayeeId = 1;
+    string PayeeName = 2;
+    trialblaze.api.contracts.message.v1.UUID SiteId = 3;
+    string SiteName = 4;
+}
+
+message SibMeta {
+    trialblaze.api.contracts.message.v1.UUID Id = 1;
+    trialblaze.api.contracts.message.v1.UUID ContractId = 2;
+    trialblaze.api.contracts.message.v1.UUID McibId = 3;
+    trialblaze.api.contracts.message.v1.CountryRef Country = 4;
+    trialblaze.api.contracts.message.v1.CurrencyRef Currency = 5;
+    string Name = 6;
+    trialblaze.api.contracts.message.v1.Status Status = 7;
+    bytes UpdatedOn = 8;
+    trialblaze.api.contracts.message.v1.UserRef UpdatedBy = 9;
+    trialblaze.api.contracts.message.v1.StudyRef Trial = 10;
+}
+
+message SibMetaHistory {
+    int32 Id = 1;
+    trialblaze.api.contracts.message.v1.UUID SibId = 2;
+    trialblaze.api.contracts.message.v1.StudyRef Trial = 3;
+    trialblaze.api.contracts.message.v1.Status Status = 4;
+    string Name = 5;
+    string Action = 6;
+    bytes ActionDate = 7;
+    trialblaze.api.contracts.message.v1.UserRef UpdatedBy = 8;
+}
+
+message TermsTemplate {
+    trialblaze.api.contracts.message.v1.UUID Id = 1;
+    string Name = 2;
+    bytes UpdatedOn = 3;
+    trialblaze.api.contracts.message.v1.UserRef UpdatedBy = 4;
+    trialblaze.api.contracts.message.v1.StudyRef Trial = 5;
+}
+
+message TermsTemplateHistory {
+    int32 Id = 1;
+    string Name = 2;
+    trialblaze.api.contracts.message.v1.UUID TermsTemplateId = 3;
+    string Action = 4;
+    bytes ActionDate = 5;
+    trialblaze.api.contracts.message.v1.UserRef UpdatedBy = 6;
+    trialblaze.api.contracts.message.v1.StudyRef Trial = 7;
+}
+
+message TermsContent {
+    bytes Content = 1;
+}
+
+message ContractMeta {
+    trialblaze.api.contracts.message.v1.UUID Id = 1;
+    trialblaze.api.contracts.message.v1.Status Status = 2;
+    string Name = 3;
+    bytes EffectiveFrom = 4;
+    bytes EffectiveTo = 5;
+    bytes UpdatedOn = 6;
+    trialblaze.api.contracts.message.v1.UserRef UpdatedBy = 7;
+    trialblaze.api.contracts.message.v1.StudyRef Trial = 8;
+    SitePayeeRef SitePayee = 9;
+}
+
+message ContractHistory {
+    int32 Id = 1;
+    trialblaze.api.contracts.message.v1.UUID ContractId = 2;
+    trialblaze.api.contracts.message.v1.Status Status = 3;
+    string Name = 4;
+    bytes EffectiveFrom = 5;
+    bytes EffectiveTo = 6;
+    string Action = 7;
+    bytes ActionDate = 8;
+    trialblaze.api.contracts.message.v1.StudyRef Trial = 9;
+    trialblaze.api.contracts.message.v1.UserRef UpdatedBy = 10;
+}
+
+message ContractTerms {
+    trialblaze.api.contracts.message.v1.UUID Id = 1;
+    trialblaze.api.contracts.message.v1.UUID ContractId = 2;
+    trialblaze.api.contracts.message.v1.UUID TermsTemplateId = 3;
+    bytes UpdatedOn = 4;
+    trialblaze.api.contracts.message.v1.UserRef UpdatedBy = 5;
+}
+
+message ContractTermsHistory {
+    int32 Id = 1;
+    trialblaze.api.contracts.message.v1.UUID TermsId = 2;
+    string Action = 3;
+    bytes ActionDate = 4;
+    trialblaze.api.contracts.message.v1.UserRef UpdatedBy = 5;
+}
+
+message ProcedurePrice {
+    trialblaze.api.contracts.message.v1.UUID SibId = 1;
+    trialblaze.api.contracts.message.v1.UUID VpdId = 2;
+    float Price = 3;
+    bytes UpdatedOn = 4;
+    trialblaze.api.contracts.message.v1.UserRef UpdatedBy = 5;
+    trialblaze.api.contracts.message.v1.StudyRef Trial = 6;
+    trialblaze.api.contracts.message.v1.UUID VdId = 7;
+    string ProcedureOId = 8;
+}
+
+message ProcedurePriceHistory {
+    int32 Id = 1;
+    trialblaze.api.contracts.message.v1.UUID SibId = 2;
+    trialblaze.api.contracts.message.v1.UUID VpdId = 3;
+    float Price = 4;
+    string Action = 5;
+    bytes ActionDate = 6;
+    trialblaze.api.contracts.message.v1.UserRef UpdatedBy = 7;
+    trialblaze.api.contracts.message.v1.StudyRef Trial = 8;
+}
+
+message SibMcibProc {
+    trialblaze.api.contracts.message.v1.UUID VpdId = 1;
+    trialblaze.api.contracts.message.v1.UUID VdId = 2;
+    string TrialId = 3;
+    string ProcOId = 4;
+    trialblaze.api.contracts.message.v1.UUID McibId = 5;
+    float PriceMin = 6;
+    float PriceMax = 7;
+    trialblaze.api.contracts.message.v1.UUID SibId = 8;
+    float Price = 9;
+}
+
+message VisitPrice {
+    trialblaze.api.contracts.message.v1.UUID SibId = 1;
+    trialblaze.api.contracts.message.v1.UUID VdId = 2;
+    float Price = 3;
+    bytes UpdatedOn = 4;
+    trialblaze.api.contracts.message.v1.UserRef UpdatedBy = 5;
+    trialblaze.api.contracts.message.v1.StudyRef Trial = 6;
+    string VisitDefId = 7;
+    string StudyId = 8;
+    string MdvId = 9;
+}
+
+message VisitPriceHistory {
+    int32 Id = 1;
+    trialblaze.api.contracts.message.v1.UUID SibId = 2;
+    trialblaze.api.contracts.message.v1.UUID VdId = 3;
+    float Price = 4;
+    string Action = 5;
+    bytes ActionDate = 6;
+    trialblaze.api.contracts.message.v1.UserRef UpdatedBy = 7;
+    trialblaze.api.contracts.message.v1.StudyRef Trial = 8;
+}
+
+message SibMcibVisit {
+    trialblaze.api.contracts.message.v1.UUID VdId = 1;
+    string TrialId = 2;
+    string VisitOId = 3;
+    trialblaze.api.contracts.message.v1.UUID McibId = 4;
+    float PriceMin = 5;
+    float PriceMax = 6;
+    trialblaze.api.contracts.message.v1.UUID SibId = 7;
+    float Price = 8;
+}
+
+message PublishedSib {
+    trialblaze.api.contracts.message.v1.UUID Id = 1;
+    trialblaze.api.contracts.message.v1.UUID ContractId = 2;
+    trialblaze.api.contracts.message.v1.UUID McibId = 3;
+    trialblaze.api.contracts.message.v1.UUID SibId = 4;
+    string Name = 5;
+    bytes UpdatedOn = 6;
+    trialblaze.api.contracts.message.v1.UserRef UpdatedBy = 7;
+    bytes VisitPrices = 8;
+    int32 TimeOrder = 9;
+    trialblaze.api.contracts.message.v1.StudyRef Trial = 10;
+    trialblaze.api.contracts.message.v1.CountryRef Country = 11;
+    trialblaze.api.contracts.message.v1.CurrencyRef Currency = 12;
+}
+
+message PublishedContract {
+    trialblaze.api.contracts.message.v1.UUID Id = 1;
+    trialblaze.api.contracts.message.v1.UUID ContractId = 2;
+    string Name = 3;
+    int32 TimeOrder = 4;
+    bytes EffectiveFrom = 5;
+    bytes EffectiveTo = 6;
+    SitePayeeRef Payee = 7;
+    trialblaze.api.contracts.message.v1.UserRef UpdatedBy = 8;
+    trialblaze.api.contracts.message.v1.StudyRef Trial = 9;
+    bytes UpdatedOn = 10;
+}
+
+message PublishedContractToS {
+    trialblaze.api.contracts.message.v1.UUID Id = 1;
+    trialblaze.api.contracts.message.v1.UUID PublishedContractId = 2;
+    trialblaze.api.contracts.message.v1.UUID TermsTemplateId = 3;
+    trialblaze.api.contracts.message.v1.UUID ContractTosId = 4;
+    trialblaze.api.contracts.message.v1.UserRef UpdatedBy = 5;
+    string Url = 6;
+    int32 TimeOrder = 7;
+    bytes UpdatedOn = 8;
+}
+
+//============Service Request/Response===============//
+
+message GetAllContractsRequest {
+    trialblaze.api.contracts.message.v1.Pagination Page = 1;
+    ContractOrder OrderBy = 2;
+    ContractFilter Filter = 3;
+}
+
+message GetAllContractsResponse {
+    ContractMeta Contract = 1;
+}
+
+message GetStudiesContractsRequest {
+    repeated string TrialId = 1;
+    trialblaze.api.contracts.message.v1.Pagination Page = 2;
+    ContractOrder OrderBy = 3;
+    ContractFilter Filter = 4;
+}
+
+message GetStudiesContractsResponse {
+    ContractMeta Contract = 1;
+}
+
+message GetSitesContractsRequest {
+    repeated trialblaze.api.contracts.message.v1.UUID SiteId = 1;
+    trialblaze.api.contracts.message.v1.Pagination Page = 2;
+    ContractOrder OrderBy = 3;
+    ContractFilter Filter = 4;
+}
+
+message GetSitesContractsResponse {
+    ContractMeta Contract = 1;
+}
+
+message GetContractsByStudyIdRequest {
+    string TrialId = 1;
+    trialblaze.api.contracts.message.v1.Pagination Page = 2;
+    ContractOrder OrderBy = 3;
+    repeated ContractFilter Filter = 4;
+}
+
+message GetContractsByStudyIdResponse {
+    ContractMeta Contract = 1;
+}
+
+message GetContractsByCreatorRequest {
+    trialblaze.api.contracts.message.v1.UUID UserId = 1;
+    trialblaze.api.contracts.message.v1.Pagination Page = 2;
+    ContractOrder OrderBy = 3;
+    ContractFilter Filter = 4;
+}
+
+message GetContractsByCreatorResponse {
+    ContractMeta Contract = 1;
+}
+
+message GetContractMetaRequest {
+    trialblaze.api.contracts.message.v1.UUID ContractId = 1;
+    string TrialId = 2;
+}
+
+message GetContractMetaResponse {
+    ContractMeta Contract = 1;
+}
+
+message GetContractHistoryMetaRequest {
+    trialblaze.api.contracts.message.v1.UUID ContractId = 1;
+    string TrialId = 2;
+    trialblaze.api.contracts.message.v1.Pagination Page = 3;
+}
+
+message GetContractHistoryMetaResponse {
+    ContractHistory ContractHistory = 1;
+}
+
+message GetContractSIBVisitsRequest {
+    trialblaze.api.contracts.message.v1.UUID SibId = 1;
+    string TrialId = 2;
+    trialblaze.api.contracts.message.v1.Pagination Page = 3;
+}
+
+message GetContractSIBVisitsResponse {
+    VisitPrice VisitPrices = 1;
+}
+
+message GetContractSIBVisitHistoriesRequest {
+    trialblaze.api.contracts.message.v1.UUID SibId = 1;
+    trialblaze.api.contracts.message.v1.UUID VdId = 2;
+    string TrialId = 3;
+    trialblaze.api.contracts.message.v1.Pagination Page = 4;
+}
+
+message GetContractSIBVisitHistoriesResponse {
+    VisitPriceHistory VisitPriceHistory = 1;
+}
+
+message UpdateContractSIBVisitsRequest {
+    VisitPrice NewVisitPrice = 1;
+    trialblaze.api.contracts.message.v1.UUID McibID = 2;
+}
+
+message UpdateContractSIBVisitsResponse {
+    VisitPrice NewVisitPrice = 1;
+}
+
+message GetContractSIBVisitProceduresRequest {
+    trialblaze.api.contracts.message.v1.UUID SibId = 1;
+    trialblaze.api.contracts.message.v1.UUID VdId = 2;
+    string TrialId = 3;
+}
+
+message GetContractSIBVisitProceduresResponse {
+    ProcedurePrice ProcedurePrices = 1;
+}
+
+message GetContractSIBVisitProcedureHistoriesRequest {
+    trialblaze.api.contracts.message.v1.UUID SibId = 1;
+    trialblaze.api.contracts.message.v1.UUID VpdId = 2;
+    string TrialId = 3;
+    trialblaze.api.contracts.message.v1.Pagination Page = 4;
+}
+
+message GetContractSIBVisitProcedureHistoriesResponse {
+    ProcedurePriceHistory ProcedurePriceHistories = 1;
+}
+
+message UpdateContractSIBVisitProcedureRequest {
+    ProcedurePrice ProcedurePrice = 1;
+}
+
+message UpdateContractSIBVisitProcedureResponse {
+    ProcedurePrice NewProcedure = 1;
+}
+
+message GetContractSIBMetaRequest {
+    trialblaze.api.contracts.message.v1.UUID ContractId = 1;
+    trialblaze.api.contracts.message.v1.UUID SibId = 2;
+    string TrialId = 3;
+}
+
+message GetContractSIBMetaResponse {
+    SibMeta Sib = 1;
+}
+
+message GetContractSIBMetaHistoriesRequest {
+    trialblaze.api.contracts.message.v1.UUID SibId = 1;
+    string TrialId = 2;
+    trialblaze.api.contracts.message.v1.Pagination Page = 3;
+}
+
+message GetContractSIBMetaHistoriesResponse {
+    SibMetaHistory SibMetaHistory = 1;
+}
+
+message UpdateContractSIBNameRequest {
+    trialblaze.api.contracts.message.v1.UUID ContractId = 1;
+    trialblaze.api.contracts.message.v1.UUID SibId = 2;
+    string Name = 3;
+    trialblaze.api.contracts.message.v1.UserRef User = 4;
+}
+
+message UpdateContractSIBNameResponse {
+    string Name = 1;
+}
+
+message GetContractTermsContentRequest {
+    trialblaze.api.contracts.message.v1.UUID ContractId = 1;
+    trialblaze.api.contracts.message.v1.UUID ContractTermsId = 2;
+}
+
+message GetContractTermsContentResponse {
+    TermsContent Content = 1;
+}
+
+message GetContractTermsMetaRequest {
+    trialblaze.api.contracts.message.v1.UUID ContractId = 1;
+}
+
+message GetContractTermsMetaResponse {
+    ContractTerms ContractTerms = 1;
+}
+
+message GetContractTermsHistoriesRequest {
+    trialblaze.api.contracts.message.v1.UUID TermsId = 1;
+    string TrialId = 2;
+    trialblaze.api.contracts.message.v1.Pagination Page = 3;
+}
+
+message GetContractTermsHistoriesResponse {
+    ContractTermsHistory ContractTermsHistories = 1;
+}
+
+message GetContractTermsHistoryRequest {
+    int32 ContractTermsHistoryId = 1;
+    trialblaze.api.contracts.message.v1.UUID ContractTermsId = 2;
+}
+
+message GetContractTermsHistoryResponse {
+    TermsContent Content = 1;
+}
+
+message GetAllTermsTemplateRequest {
+    string TrialId = 1;
+    trialblaze.api.contracts.message.v1.Pagination Page = 2;
+    TermsTemplateOrder OrderBy = 3;
+    repeated TermsTemplateFilter Filter = 4;
+}
+
+message GetAllTermsTemplateResponse {
+    TermsTemplate TermsTemplates = 1;
+}
+
+message GetTermsTemplateContentRequest {
+    string TrialId = 1;
+    trialblaze.api.contracts.message.v1.UUID TermsId = 2;
+}
+
+message GetTermsTemplateContentResponse {
+    TermsContent Content = 1;
+}
+
+message GetTermsTemplateHistoriesRequest {
+    string TrialId = 1;
+    trialblaze.api.contracts.message.v1.UUID TermsID = 2;
+    trialblaze.api.contracts.message.v1.Pagination Page = 3;
+}
+
+message GetTermsTemplateHistoriesResponse {
+    TermsTemplateHistory TermsTemplateHistories = 1;
+}
+
+message GetTermsTemplateHistoryRequest {
+    string TrialId = 1;
+    int32 TermsTemplateHistoryId = 2;
+    trialblaze.api.contracts.message.v1.UUID TermsTemplateId = 3;
+}
+
+message GetTermsTemplateHistoryResponse {
+    TermsContent Content = 1;
+}
+
+message CreateNewContractRequest {
+    ContractMeta Contract = 1;
+    trialblaze.api.contracts.message.v1.UUID McibId = 2;
+    trialblaze.api.contracts.message.v1.UUID TermsTemplateId = 3;
+}
+
+message CreateNewContractResponse {
+    ContractMeta NewContract = 1;
+    trialblaze.api.contracts.message.v1.UUID ContractId = 2;
+}
+
+message CreateNewTermsTemplateRequest {
+    TermsContent Content = 1;
+    string Name = 2;
+    trialblaze.api.contracts.message.v1.StudyRef Trial = 3;
+    trialblaze.api.contracts.message.v1.UserRef UpdatedBy = 4;
+}
+
+message CreateNewTermsTemplateResponse {
+    TermsTemplate NewTermsTemplate = 1;
+}
+
+message UpdateTermsTemplateContentRequest {
+    trialblaze.api.contracts.message.v1.UUID TemplateId = 1;
+    TermsContent NewTermsContent = 2;
+    trialblaze.api.contracts.message.v1.StudyRef Trial = 3;
+    trialblaze.api.contracts.message.v1.UserRef UpdatedBy = 4;
+}
+
+message UpdateTermsTemplateContentResponse {
+    TermsTemplate NewTermsTemplate = 1;
+}
+
+message UpdateTermsTemplateRequest {
+    trialblaze.api.contracts.message.v1.UUID TemplateId = 1;
+    string Name = 2;
+    trialblaze.api.contracts.message.v1.StudyRef Trial = 3;
+    trialblaze.api.contracts.message.v1.UserRef UpdatedBy = 4;
+}
+
+message UpdateTermsTemplateResponse {
+    TermsTemplate NewTermsTemplate = 1;
+}
+
+message UpdateContractTermsRequest {
+    trialblaze.api.contracts.message.v1.UUID ContractId = 1;
+    trialblaze.api.contracts.message.v1.UUID ContractTermsId = 2;
+    TermsContent NewTerms = 3;
+    trialblaze.api.contracts.message.v1.UserRef UpdatedBy = 4;
+}
+
+message UpdateContractTermsResponse {
+    ContractTerms NewContractTerms = 1;
+}
+
+message UpdateContractMetaRequest {
+    trialblaze.api.contracts.message.v1.UUID ContractId = 1;
+    string Name = 2;
+    bytes EffectiveFrom = 3;
+    bytes EffectiveTo = 4;
+    trialblaze.api.contracts.message.v1.UserRef UpdatedBy = 5;
+}
+
+message UpdateContractMetaResponse {
+    ContractMeta NewContract = 1;
+}
+
+message StartReviewSibRequest {
+    trialblaze.api.contracts.message.v1.UUID SibId = 1;
+    trialblaze.api.contracts.message.v1.UUID ContractId = 2;
+    string TrialId = 3;
+    trialblaze.api.contracts.message.v1.UserRef UpdatedBy = 4;
+}
+
+message StartReviewSibResponse {
+    trialblaze.api.contracts.message.v1.UUID SibId = 1;
+}
+
+message CancelSibReviewRequest {
+    trialblaze.api.contracts.message.v1.UUID SibId = 1;
+    trialblaze.api.contracts.message.v1.UUID ContractId = 2;
+    string TrialId = 3;
+    trialblaze.api.contracts.message.v1.UserRef UpdatedBy = 4;
+}
+
+message CancelSibReviewResponse {
+    trialblaze.api.contracts.message.v1.UUID SibId = 1;
+}
+
+message PublishSibRequest {
+    trialblaze.api.contracts.message.v1.UUID SibId = 1;
+    trialblaze.api.contracts.message.v1.UUID ContractId = 2;
+    string TrialId = 3;
+    trialblaze.api.contracts.message.v1.UserRef UpdatedBy = 4;
+}
+
+message PublishSibResponse {
+    trialblaze.api.contracts.message.v1.UUID SibId = 1;
+}
+
+message StartReviewContractRequest {
+    trialblaze.api.contracts.message.v1.UUID ContractId = 1;
+    string TrialId = 2;
+    trialblaze.api.contracts.message.v1.UserRef UpdatedBy = 3;
+}
+
+message StartReviewContractResponse {
+    trialblaze.api.contracts.message.v1.UUID ContractId = 1;
+}
+
+message CancelContractReviewRequest {
+    trialblaze.api.contracts.message.v1.UUID ContractId = 1;
+    string TrialId = 2;
+    trialblaze.api.contracts.message.v1.UserRef UpdatedBy = 3;
+}
+
+message CancelContractReviewResponse {
+    trialblaze.api.contracts.message.v1.UUID ContractId = 1;
+}
+
+message PublishContractRequest {
+    trialblaze.api.contracts.message.v1.UUID ContractId = 1;
+    string TrialId = 2;
+    trialblaze.api.contracts.message.v1.UserRef UpdatedBy = 3;
+}
+
+message PublishContractResponse {
+    trialblaze.api.contracts.message.v1.UUID ContractId = 1;
+}
+
+message StartSigningContractRequest {
+    trialblaze.api.contracts.message.v1.UUID ContractId = 1;
+    string TrialId = 2;
+    trialblaze.api.contracts.message.v1.UserRef UpdatedBy = 3;
+}
+
+message StartSigningContractResponse {
+    trialblaze.api.contracts.message.v1.UUID ContractId = 1;
+}
+
+message GetContractSibMcibVisitsRequest {
+    trialblaze.api.contracts.message.v1.UUID McibId = 1;
+    trialblaze.api.contracts.message.v1.UUID SibId = 2;
+    string TrialId = 3;
+    trialblaze.api.contracts.message.v1.Pagination Page = 4;
+}
+
+message GetContractSibMcibVisitsResponse {
+    SibMcibVisit visit = 1;
+}
+
+message GetContractSibMcibProcsRequest {
+    trialblaze.api.contracts.message.v1.UUID McibId = 1;
+    trialblaze.api.contracts.message.v1.UUID SibId = 2;
+    trialblaze.api.contracts.message.v1.UUID VdId = 3;
+    string TrialId = 4;
+}
+
+message GetContractSibMcibProcsResponse {
+    SibMcibProc Proc = 1;
+}
+
+message CreateContractSibRequest {
+    trialblaze.api.contracts.message.v1.UUID ContractId = 1;
+    trialblaze.api.contracts.message.v1.UUID McibId = 2;
+    string Name = 3;
+    trialblaze.api.contracts.message.v1.UserRef UpdatedBy = 4;
+    string TrialId = 5;
+}
+
+message CreateContractSibResponse {
+    SibMeta NewSib = 1;
+}
+
+message GetAllSibsByContractRequest {
+    trialblaze.api.contracts.message.v1.UUID ContractId = 1;
+    trialblaze.api.contracts.message.v1.UUID McibId = 2;
+    string TrialId = 3;
+    trialblaze.api.contracts.message.v1.Pagination Page = 4;
+    SibOrder OrderBy = 5;
+    SibFilter Filter = 6;
+}
+
+message GetAllSibsByContractResponse {
+    SibMeta Sib = 1;
+}

@@ -1,0 +1,75 @@
+/**
+ * Copyright (c) 2019 TRIALBLAZE PTY. LTD. All rights reserved.
+ *
+ * Created by IntelliJ IDEA.
+ * User: Joe
+ * Date: 8/23/19
+ * Time: 6:33 PM
+ *
+ * Description: common.proto file contains the messages would be used commonly in contract modules services
+ *
+ */
+
+syntax = "proto3";
+package trialblaze.api.contracts.message.v1;
+
+
+option go_package = "github.com/trialblaze/contract-grpc-go/pkg/api/message/v1;v1";
+
+//============ Common Messages ===============//
+
+message UUID {
+    string Id = 1;
+}
+
+message Pagination {
+    int32 Limit = 1;
+    int32 Offset = 2;
+}
+
+message UserRef {
+    string Username = 1;
+    UUID UserId = 2;
+}
+
+message StudyRef {
+    string TrialId = 1;
+    string TrialAlias = 2;
+}
+
+message CountryRef {
+    string Id = 1;
+    string Name = 2;
+}
+
+message CurrencyRef {
+    string Id = 1;
+    string Name = 2;
+}
+
+message WorkflowRef {
+    UUID ObjectId = 1;
+    UUID WorkflowId = 2;
+    ObjectType ObjectType = 3;
+}
+
+enum FilterOperation {
+    LIKE = 0;
+    EQUAL = 1;
+}
+
+enum Status {
+    EDITING = 0;
+    IN_REVIEW = 1;
+    APPROVED = 2;
+    REJECTED = 3;
+    CANCELED = 4;
+    SIGNED = 5;
+    PUBLISHED = 6;
+}
+
+enum ObjectType {
+    MCIB = 0;
+    SIB = 1;
+    CONTRACT = 2;
+}

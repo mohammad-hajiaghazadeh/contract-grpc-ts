@@ -1,0 +1,218 @@
+/**
+ * Copyright (c) 2019 TRIALBLAZE PTY. LTD. All rights reserved.
+ *
+ * Created by IntelliJ IDEA.
+ * User: Hamed Yousefi
+ * Date: 7/29/19
+ * Time: 8:17 AM
+ *
+ * Description:
+ *
+ */
+
+syntax = "proto3";
+package trialblaze.api.contracts.command.v1;
+
+import "src/api/message/contract/v1/contract.proto";
+
+option go_package = "github.com/trialblaze/contract-grpc-go/pkg/api/command/v1;v1";
+
+service Contract {
+    // GetAllContracts accepts a limit and offset for pagination
+    // as input and returns a list of contract with no filter
+    rpc GetAllContracts (trialblaze.api.contracts.message.contract.v1.GetAllContractsRequest) returns (stream trialblaze.api.contracts.message.contract.v1.GetAllContractsResponse) {}
+
+    // GetStudiesContracts accepts a limit and offset and list of
+    // study id as input and returns a list contract, this contracts
+    // are belong to that study id list
+    rpc GetStudiesContracts (trialblaze.api.contracts.message.contract.v1.GetStudiesContractsRequest) returns (stream trialblaze.api.contracts.message.contract.v1.GetStudiesContractsResponse) {}
+
+    // GetSitesContracts accepts a limit and offset and list of
+    // site_id as input and returns a list contract, this contracts
+    // are belong to that site id list
+    rpc GetSitesContracts (trialblaze.api.contracts.message.contract.v1.GetSitesContractsRequest) returns (stream trialblaze.api.contracts.message.contract.v1.GetSitesContractsResponse) {}
+
+    // GetContractsByStudyId accepts a limit and offset and a
+    // study id as input and returns a list contract, this
+    // contracts are belong to that study id
+    rpc GetContractsByStudyId (trialblaze.api.contracts.message.contract.v1.GetContractsByStudyIdRequest) returns (stream trialblaze.api.contracts.message.contract.v1.GetContractsByStudyIdResponse) {}
+
+    // GetContractsByCreator accepts a limit and offset and a
+    // user id as input and returns a list contract, this
+    // contracts are belong to that user
+    rpc GetContractsByCreator (trialblaze.api.contracts.message.contract.v1.GetContractsByCreatorRequest) returns (stream trialblaze.api.contracts.message.contract.v1.GetContractsByCreatorResponse) {}
+
+    // GetContractMeta accepts a contract id as input and returns
+    // contract metadata for that specific contract id
+    rpc GetContractMeta (trialblaze.api.contracts.message.contract.v1.GetContractMetaRequest) returns (trialblaze.api.contracts.message.contract.v1.GetContractMetaResponse) {}
+    rpc GetContractHistoryMeta (trialblaze.api.contracts.message.contract.v1.GetContractHistoryMetaRequest) returns (stream trialblaze.api.contracts.message.contract.v1.GetContractHistoryMetaResponse) {}
+
+    // GetContractSIBVisits accepts a contract id and returns list
+    // of all visits inside a SIB, that SIB belongs to that specific
+    // contract id
+    rpc GetContractSIBVisits (trialblaze.api.contracts.message.contract.v1.GetContractSIBVisitsRequest) returns (stream trialblaze.api.contracts.message.contract.v1.GetContractSIBVisitsResponse) {}
+
+    // GetContractSIBVisitHistories accepts a limit and offset for pagination
+    // and a SIB visit id as input and returns a list of changes for that record
+    // that happened during the time
+    rpc GetContractSIBVisitHistories (trialblaze.api.contracts.message.contract.v1.GetContractSIBVisitHistoriesRequest) returns (stream trialblaze.api.contracts.message.contract.v1.GetContractSIBVisitHistoriesResponse) {}
+
+    // UpdateContractSIBVisit accepts a list of SIB visit with new prices for that visits
+    // and a user id that make this changes, as input and returns a SIB visit,
+    // this SIB visit is the updated one
+    rpc UpdateContractSIBVisits (stream trialblaze.api.contracts.message.contract.v1.UpdateContractSIBVisitsRequest) returns (stream trialblaze.api.contracts.message.contract.v1.UpdateContractSIBVisitsResponse) {}
+
+    // GetContractSIBVisitProcedures accepts a SIB visit id and returns list of
+    // procedures inside that specific visit
+    rpc GetContractSIBVisitProcedures (trialblaze.api.contracts.message.contract.v1.GetContractSIBVisitProceduresRequest) returns (stream trialblaze.api.contracts.message.contract.v1.GetContractSIBVisitProceduresResponse) {}
+
+    // GetContractSIBVisitProcedureHistories accepts a limit and offset for pagination
+    // and a procedure id that belongs to a specific SIB visit. it returns list of
+    // changes for that record
+    rpc GetContractSIBVisitProcedureHistories (trialblaze.api.contracts.message.contract.v1.GetContractSIBVisitProcedureHistoriesRequest) returns (stream trialblaze.api.contracts.message.contract.v1.GetContractSIBVisitProcedureHistoriesResponse) {}
+
+    // EditContractSIBVisitProcedure accepts a procedure id that belongs to a
+    // specific SIB visit, a new price value and a user id that makes this change.
+    // it returns the new one
+    rpc UpdateContractSIBVisitProcedure (stream trialblaze.api.contracts.message.contract.v1.UpdateContractSIBVisitProcedureRequest) returns (stream trialblaze.api.contracts.message.contract.v1.UpdateContractSIBVisitProcedureResponse) {}
+
+    // GetContractSIBMeta accepts a specific contract id and returns SIB metadata
+    // that belongs to the contract id
+    rpc GetContractSIBMeta (trialblaze.api.contracts.message.contract.v1.GetContractSIBMetaRequest) returns (trialblaze.api.contracts.message.contract.v1.GetContractSIBMetaResponse) {}
+
+    // GetContractSIBMetaHistories accepts a specific contract id to fetch the
+    // SIB and a limit and offset for pagination. it returns a list of changes
+    // for that SIB
+    rpc GetContractSIBMetaHistories (trialblaze.api.contracts.message.contract.v1.GetContractSIBMetaHistoriesRequest) returns (stream trialblaze.api.contracts.message.contract.v1.GetContractSIBMetaHistoriesResponse) {}
+
+    // EditContractSIBMeta accepts a contract id to find its SIB, two new effective dates
+    // and a user id that makes this changes. it returns the new SIB
+    rpc UpdateContractSIBName (trialblaze.api.contracts.message.contract.v1.UpdateContractSIBNameRequest) returns (trialblaze.api.contracts.message.contract.v1.UpdateContractSIBNameResponse) {}
+
+    // GetContractTerms accepts a contract id and returns its ToS
+    rpc GetContractTermsContent (trialblaze.api.contracts.message.contract.v1.GetContractTermsContentRequest) returns (stream trialblaze.api.contracts.message.contract.v1.GetContractTermsContentResponse) {}
+    rpc GetContractTermsMeta (trialblaze.api.contracts.message.contract.v1.GetContractTermsMetaRequest) returns (trialblaze.api.contracts.message.contract.v1.GetContractTermsMetaResponse) {}
+
+    // GetContractTermsHistories accepts a limit and offset for pagination and
+    // a contract id to fetch a specific contract ToS. it returns list of changes
+    // for that ToS. this is just metadata of that ToS, content is not included
+    rpc GetContractTermsHistories (trialblaze.api.contracts.message.contract.v1.GetContractTermsHistoriesRequest) returns (stream trialblaze.api.contracts.message.contract.v1.GetContractTermsHistoriesResponse) {}
+
+    // GetContractTermsHistory accepts a contract ToS history id as input and returns
+    // its content
+    rpc GetContractTermsHistory (trialblaze.api.contracts.message.contract.v1.GetContractTermsHistoryRequest) returns (stream trialblaze.api.contracts.message.contract.v1.GetContractTermsHistoryResponse) {}
+
+    // GetAllTermsTemplate accepts a limit and offset for pagination and returns
+    // all of existing ToS templates
+    rpc GetAllTermsTemplate (trialblaze.api.contracts.message.contract.v1.GetAllTermsTemplateRequest) returns (stream trialblaze.api.contracts.message.contract.v1.GetAllTermsTemplateResponse) {}
+
+    // GetTermsTemplate accepts a specific ToS template id as input and
+    // returns its content
+    rpc GetTermsTemplateContent (trialblaze.api.contracts.message.contract.v1.GetTermsTemplateContentRequest) returns (stream trialblaze.api.contracts.message.contract.v1.GetTermsTemplateContentResponse) {}
+
+    // GetTermsTemplateHistories accepts a ToS template id and a limit and offset
+    // for pagination, it returns list of changes for that specific ToS template
+    rpc GetTermsTemplateHistories (trialblaze.api.contracts.message.contract.v1.GetTermsTemplateHistoriesRequest) returns (stream trialblaze.api.contracts.message.contract.v1.GetTermsTemplateHistoriesResponse) {}
+
+    // GetTermsTemplateHistory accepts a ToS template history id as input and
+    // returns the content of that specific ToS template history
+    rpc GetTermsTemplateHistory (trialblaze.api.contracts.message.contract.v1.GetTermsTemplateHistoryRequest) returns (stream trialblaze.api.contracts.message.contract.v1.GetTermsTemplateHistoryResponse) {}
+
+    // CreateNewContract accepts a contract metadata to create a new contract and
+    // a user id that wants to create that contract as input and returns the new contract
+    rpc CreateNewContract (trialblaze.api.contracts.message.contract.v1.CreateNewContractRequest) returns (trialblaze.api.contracts.message.contract.v1.CreateNewContractResponse) {}
+
+    // CreateNewTermsTemplate accepts a ToS content as input to create a new ToS template
+    // and user id that want to create that ToS Template and returns the new ToS Template
+    rpc CreateNewTermsTemplate (stream trialblaze.api.contracts.message.contract.v1.CreateNewTermsTemplateRequest) returns (trialblaze.api.contracts.message.contract.v1.CreateNewTermsTemplateResponse) {}
+
+    // UpdateTermsTemplateContent accepts a ToS Template id, a new content and a user id that makes
+    // these changes a input and return the new ToS
+    rpc UpdateTermsTemplateContent (stream trialblaze.api.contracts.message.contract.v1.UpdateTermsTemplateContentRequest) returns (trialblaze.api.contracts.message.contract.v1.UpdateTermsTemplateContentResponse) {}
+
+    // UpdateTermsTemplate accepts a ToS Template id, a new template Name, template Trial and a user id that makes
+    // these changes a input and return the new ToS
+    rpc UpdateTermsTemplate (trialblaze.api.contracts.message.contract.v1.UpdateTermsTemplateRequest) returns (trialblaze.api.contracts.message.contract.v1.UpdateTermsTemplateResponse) {}
+
+    // UpdateContractTerms accepts a contract id to fetch the Tos of that contract,
+    // a new content for that contract and a user id that wants to makes this changes
+    // as input. it returns new contract ToS
+    rpc UpdateContractTerms (stream trialblaze.api.contracts.message.contract.v1.UpdateContractTermsRequest) returns (trialblaze.api.contracts.message.contract.v1.UpdateContractTermsResponse) {}
+
+    // UpdateContractMeta accepts two effective dates, a contract id that user wants
+    // to update and a user id that wants to makes this changes as input. it returns the
+    // contract
+    rpc UpdateContractMeta (trialblaze.api.contracts.message.contract.v1.UpdateContractMetaRequest) returns (trialblaze.api.contracts.message.contract.v1.UpdateContractMetaResponse) {}
+
+    //StartReviewSib changes the sib status to InReview
+    //Input:
+    // an Sib Id
+    //Output:
+    // an Sib Id
+    rpc StartReviewSib(trialblaze.api.contracts.message.contract.v1.StartReviewSibRequest)
+    returns (trialblaze.api.contracts.message.contract.v1.StartReviewSibResponse){}
+
+    //CancelSibReview cancels an sib review and changes the sib status to Editing
+    //Input:
+    // an sib Id
+    //Output:
+    // an sib Id
+    rpc CancelSibReview(trialblaze.api.contracts.message.contract.v1.CancelSibReviewRequest)
+    returns (trialblaze.api.contracts.message.contract.v1.CancelSibReviewResponse){}
+
+    //PublishSib publishes an sib and changes the sib status to Published
+    //Input:
+    // an sib Id
+    //Output:
+    // an sib Id
+    rpc PublishSib(trialblaze.api.contracts.message.contract.v1.PublishSibRequest)
+    returns (trialblaze.api.contracts.message.contract.v1.PublishSibResponse){}
+
+    //StartReviewContract changes the contract status to InReview
+    //Input:
+    // an contract Id
+    //Output:
+    // an contract Id
+    rpc StartReviewContract(trialblaze.api.contracts.message.contract.v1.StartReviewContractRequest)
+    returns (trialblaze.api.contracts.message.contract.v1.StartReviewContractResponse){}
+
+    //CancelContractReview cancels an contract review and changes the sib status to Editing
+    //Input:
+    // an contract Id
+    //Output:
+    // an contract Id
+    rpc CancelContractReview(trialblaze.api.contracts.message.contract.v1.CancelContractReviewRequest)
+    returns (trialblaze.api.contracts.message.contract.v1.CancelContractReviewResponse){}
+
+    //PublishContract publishes an contract and changes the contract status to Published
+    //Input:
+    // an contract Id
+    //Output:
+    // an contract Id
+    rpc PublishContract(trialblaze.api.contracts.message.contract.v1.PublishContractRequest)
+    returns (trialblaze.api.contracts.message.contract.v1.PublishContractResponse){}
+
+    //SignContract sends a request to start signing the contract
+    //Input:
+    // an contract Id
+    //Output:
+    // an contract Id
+    rpc StartSigningContract(trialblaze.api.contracts.message.contract.v1.StartSigningContractRequest)
+    returns (trialblaze.api.contracts.message.contract.v1.StartSigningContractResponse){}
+
+    //returns list of mcib visits and sib visits side by side
+    rpc GetContractSibMcibVisits (trialblaze.api.contracts.message.contract.v1.GetContractSibMcibVisitsRequest)
+    returns (stream trialblaze.api.contracts.message.contract.v1.GetContractSibMcibVisitsResponse){}
+
+    //returns list of mcib procs and sib procs side by side
+    rpc GetContractSibMcibProcs (trialblaze.api.contracts.message.contract.v1.GetContractSibMcibProcsRequest)
+    returns (stream trialblaze.api.contracts.message.contract.v1.GetContractSibMcibProcsResponse){}
+
+    //creates a new SIB for a specific contract
+    rpc CreateContractSib (trialblaze.api.contracts.message.contract.v1.CreateContractSibRequest)
+    returns (trialblaze.api.contracts.message.contract.v1.CreateContractSibResponse) {}
+
+    //returns list of all SIBs inside a specific contract
+    rpc GetAllSibsByContract (trialblaze.api.contracts.message.contract.v1.GetAllSibsByContractRequest)
+    returns (stream trialblaze.api.contracts.message.contract.v1.GetAllSibsByContractResponse) {}
+}

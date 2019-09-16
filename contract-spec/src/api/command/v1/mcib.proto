@@ -1,0 +1,146 @@
+/**
+ * Copyright (c) 2019 TRIALBLAZE PTY. LTD. All rights reserved.
+ *
+ * Created by IntelliJ IDEA.
+ * User: Joe
+ * Date: 8/23/19
+ * Time: 8:27 PM
+ *
+ * Description: This file contains services related to MCIB
+ *
+ */
+
+syntax = "proto3";
+package trialblaze.api.contracts.command.v1;
+
+import "src/api/message/mcib/v1/mcib.proto";
+
+option go_package = "github.com/trialblaze/contract-grpc-go/pkg/api/command/v1;v1";
+
+service Mcib {
+    //To fetch a number of MCIBs (based on pagination and filtered columns)
+    //Inputs:
+    // TrialId: to filter Mcibs in query (useful for possible data sharding)
+    // Mcib filters: to filter a number of columns for reading Mcibs
+    // OrderBy : to sort the result based on a column
+    // Pagination : to paginate results
+    //Output:
+    // a stream of MCIB messages
+    rpc GetMcibs (trialblaze.api.contracts.message.mcib.v1.GetMcibsRequest)
+    returns (stream trialblaze.api.contracts.message.mcib.v1.GetMcibsResponse) {}
+
+    //To fetch a particular MCIB's changes histories
+    //Inputs:
+    // McibId: to have a particular MCIB id to fetch histories
+    // TrialId: to filter Mcibs in query (useful for possible data sharding)
+    // Pagination : to paginate results
+    //Output:
+    // a stream of MCIB histories
+    rpc GetMcibHistories (trialblaze.api.contracts.message.mcib.v1.GetMcibHistoriesRequest)
+    returns (stream trialblaze.api.contracts.message.mcib.v1.GetMcibHistoriesResponse) {}
+
+    //To Create a MCIB
+    //Input:
+    // MCIB : a Mcib object to insert (including updater user, updating time, ...)
+    //Output:
+    // McibId: ID of the Mcib instance which has been inserted
+    rpc CreateMcib (trialblaze.api.contracts.message.mcib.v1.CreateMcibRequest)
+    returns (trialblaze.api.contracts.message.mcib.v1.CreateMcibResponse) {}
+
+    //To Update an existing MCIB (only effective dates can be updated)
+    //Inputs:
+    // McibId: to find updating mcib in db side
+    // TrialId:  to find updating mcib in db side (useful for possible data sharding)
+    // EffectiveFrom: updating field of Mcib object
+    // EffectiveTo: updating field of Mcib object
+    // UpdatedBy: updating field of Mcib object
+    //Output:
+    // MCIB: the instance of MCIB which has been updated
+    rpc UpdateMcib (trialblaze.api.contracts.message.mcib.v1.UpdateMcibRequest)
+    returns (trialblaze.api.contracts.message.mcib.v1.UpdateMcibResponse) {}
+
+    //To fetch a number of visit price ranges, related to a particular MCIB
+    //Inputs:
+    // McibId: to get filter visit price ranges, related to a MCIB
+    // TrialId:  to filter price ranges in query (useful for possible data sharding)
+    // Pagination:  to paginate results
+    //Output:
+    // a stream of queried visit price ranges
+    rpc GetVisitPriceRanges (trialblaze.api.contracts.message.mcib.v1.GetVisitPriceRangesRequest)
+    returns (stream trialblaze.api.contracts.message.mcib.v1.GetVisitPriceRangesResponse) {}
+
+    //To fetch changes history of Visit price ranges
+    //Inputs:
+    // McibId: to get filter visit price ranges histories
+    // VdId:  to fetch Visit price ranges histories related to a particular Visit price range
+    // TrialId:  to filter price range histories in query (useful for possible data sharding)
+    // Pagination:  to paginate results
+    //Output:
+    // a stream of queried visit price range histories
+    rpc GetVisitPriceRangeHistories (trialblaze.api.contracts.message.mcib.v1.GetVisitPriceRangeHistoriesRequest)
+    returns (stream trialblaze.api.contracts.message.mcib.v1.GetVisitPriceRangeHistoriesResponse) {}
+
+    //To update a number of visit price ranges
+    //Input:
+    // a stream of VisitPriceRanges to upsert
+    //Output:
+    // a stream of updated VisitPriceRange
+    rpc UpdateVisitPriceRanges (stream trialblaze.api.contracts.message.mcib.v1.UpdateVisitPriceRangesRequest)
+    returns (stream trialblaze.api.contracts.message.mcib.v1.UpdateVisitPriceRangesResponse) {}
+
+    //To fetch a number of visit procedure price ranges
+    //Inputs:
+    // McibId : to filter result
+    // TrialId : to filter result (useful for possible data sharding)
+    // VisitDefId: to filter result
+    // StudyId: to filter result
+    // MdvId: to filter result
+    // Pagination: to paginate results
+    //Output:
+    // a stream of ProcedurePriceRange messages
+    rpc GetVisitProcedurePriceRanges (trialblaze.api.contracts.message.mcib.v1.GetVisitProcedurePriceRangesRequest)
+    returns (stream trialblaze.api.contracts.message.mcib.v1.GetVisitProcedurePriceRangesResponse) {}
+
+    //To fetch changes history of a particular Visit procedure price ranges
+    //Inputs:
+    // McibId: to get filter visit price ranges histories
+    // VpdId:  to fetch Visit-procedure price ranges histories related to a particular Visit-procedure price range
+    // TrialId:  to filter price range histories in query (useful for possible data sharding)
+    // Pagination:  to paginate results
+    //Output:
+    // a stream of queried visit-procedure price range histories
+    rpc GetVisitProcedurePriceRangeHistories (trialblaze.api.contracts.message.mcib.v1.GetVisitProcedurePriceRangeHistoriesRequest)
+    returns (stream trialblaze.api.contracts.message.mcib.v1.GetVisitProcedurePriceRangeHistoriesResponse) {}
+
+    //To update a number of visit procedure price ranges
+    //Input:
+    // a stream of ProcedurePriceRanges: to upsert particular procedure price ranges
+    //Output:
+    // a stream of updated visit-procedure price ranges
+    rpc UpdateVisitProcedurePriceRanges (stream trialblaze.api.contracts.message.mcib.v1.UpdateVisitProcedurePriceRangesRequest)
+    returns (stream trialblaze.api.contracts.message.mcib.v1.UpdateVisitProcedurePriceRangesResponse) {}
+
+    //StartReviewMcib changes the mcib status to InReview
+    //Input:
+    // an mcib Id
+    //Output:
+    // an mcib Id
+    rpc StartReviewMcib(trialblaze.api.contracts.message.mcib.v1.StartReviewMcibRequest)
+    returns (trialblaze.api.contracts.message.mcib.v1.StartReviewMcibResponse){}
+
+    //CancelMcibReview cancels an mcib review and changes the mcib status to Editing
+    //Input:
+    // an mcib Id
+    //Output:
+    // an mcib Id
+    rpc CancelMcibReview(trialblaze.api.contracts.message.mcib.v1.CancelMcibReviewRequest)
+    returns (trialblaze.api.contracts.message.mcib.v1.CancelMcibReviewResponse){}
+
+    //PublishMcib publishes an mcib and changes the mcib status to Published
+    //Input:
+    // an mcib Id
+    //Output:
+    // an mcib Id
+    rpc PublishMcib(trialblaze.api.contracts.message.mcib.v1.PublishMcibRequest)
+    returns (trialblaze.api.contracts.message.mcib.v1.PublishMcibResponse){}
+}

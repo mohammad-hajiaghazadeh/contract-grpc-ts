@@ -1,0 +1,255 @@
+/**
+ * Copyright (c) 2019 TRIALBLAZE PTY. LTD. All rights reserved.
+ *
+ * Created by IntelliJ IDEA.
+ * User: Joe
+ * Date: 8/23/19
+ * Time: 6:57 PM
+ *
+ * Description: mcib.proto contains the business and service messages related to MCIB
+ *
+ */
+
+syntax = "proto3";
+package trialblaze.api.contracts.message.mcib.v1;
+
+import "src/api/message/v1/common.proto";
+
+option go_package = "github.com/trialblaze/contract-grpc-go/pkg/api/message/mcib/v1;v1";
+
+//==========Business Messages=========//
+
+message Order {
+    OrderColumns Column = 1;
+    bool IsDesc = 2;
+}
+
+message Filter {
+    FilterColumns Column = 1;
+    string Value = 2;
+    trialblaze.api.contracts.message.v1.FilterOperation Operation = 3;
+}
+
+enum OrderColumns {
+    TRIAL = 0;
+    NAME = 1;
+    TIME = 2;
+    COUNTRY = 3;
+    CURRENCY = 4;
+}
+
+enum FilterColumns {
+    NO_FILTER = 0;
+    TRIAL_ALIAS = 1;
+    MCIB_NAME = 2;
+    USERNAME = 3;
+    USER_ID = 4;
+    COUNTRY_ID = 5;
+    CURRENCY_ID = 6;
+    STATUS = 7;
+    MCIB_ID = 8;
+}
+
+message PriceRange {
+    float PriceMin = 1;
+    float PriceMax = 2;
+}
+
+message Mcib {
+    trialblaze.api.contracts.message.v1.UUID Id = 1;
+    string Name = 2;
+    trialblaze.api.contracts.message.v1.CountryRef Country = 3;
+    trialblaze.api.contracts.message.v1.CurrencyRef Currency = 4;
+    trialblaze.api.contracts.message.v1.Status Status = 5;
+    bytes EffectiveFrom = 6;
+    bytes EffectiveTo = 7;
+    bytes UpdatedOn = 8;
+    trialblaze.api.contracts.message.v1.UserRef UpdatedBy = 9;
+    trialblaze.api.contracts.message.v1.StudyRef Trial = 10;
+}
+
+message McibHistory {
+    int32 Id = 1;
+    trialblaze.api.contracts.message.v1.UUID McibId = 2;
+    trialblaze.api.contracts.message.v1.StudyRef Trial = 3;
+    trialblaze.api.contracts.message.v1.Status Status = 4;
+    bytes EffectiveFrom = 5;
+    bytes EffectiveTo = 6;
+    string Action = 7;
+    bytes ActionDate = 8;
+    trialblaze.api.contracts.message.v1.UserRef UpdatedBy = 9;
+}
+
+message VisitPriceRange {
+    trialblaze.api.contracts.message.v1.UUID McibId = 1;
+    trialblaze.api.contracts.message.v1.UUID VdId = 2;
+    PriceRange PriceRange = 3;
+    bytes UpdatedOn = 4;
+    trialblaze.api.contracts.message.v1.UserRef UpdatedBy = 5;
+    trialblaze.api.contracts.message.v1.StudyRef Trial = 6;
+    string VisitDefOId = 7;
+}
+
+message VisitPriceRangeHistory {
+    int32 Id = 1;
+    trialblaze.api.contracts.message.v1.UUID McibId = 2;
+    trialblaze.api.contracts.message.v1.UUID VdId = 3;
+    PriceRange PriceRange = 4;
+    string Action = 5;
+    bytes ActionDate = 6;
+    trialblaze.api.contracts.message.v1.UserRef UpdatedBy = 7;
+    trialblaze.api.contracts.message.v1.StudyRef Trial = 8;
+}
+
+message ProcedurePriceRange {
+    trialblaze.api.contracts.message.v1.UUID McibId = 1;
+    trialblaze.api.contracts.message.v1.UUID VpdId = 2;
+    PriceRange PriceRange = 3;
+    bytes UpdatedOn = 4;
+    trialblaze.api.contracts.message.v1.UserRef UpdatedBy = 5;
+    trialblaze.api.contracts.message.v1.StudyRef Trial = 6;
+    string ProcedureOId = 7;
+    trialblaze.api.contracts.message.v1.UUID VdId = 8;
+}
+
+message ProcedurePriceRangeHistory {
+    int32 Id = 1;
+    trialblaze.api.contracts.message.v1.UUID McibId = 2;
+    trialblaze.api.contracts.message.v1.UUID VpdId = 3;
+    PriceRange PriceRange = 4;
+    string Action = 5;
+    bytes ActionDate = 6;
+    trialblaze.api.contracts.message.v1.UserRef UpdatedBy = 7;
+    trialblaze.api.contracts.message.v1.StudyRef Trial = 8;
+}
+
+//============Service Request/Response===============//
+
+message GetMcibsRequest {
+    string TrialId = 1;
+    Order OrderBy = 2;
+    repeated Filter Filter = 3;
+    trialblaze.api.contracts.message.v1.Pagination Page = 4;
+}
+
+message GetMcibsResponse {
+    Mcib Mcib = 1;
+}
+
+message GetMcibHistoriesRequest {
+    trialblaze.api.contracts.message.v1.UUID McibId = 1;
+    string TrialId = 2;
+    trialblaze.api.contracts.message.v1.Pagination Page = 3;
+}
+
+message GetMcibHistoriesResponse {
+    McibHistory McibHistory = 1;
+}
+
+message CreateMcibRequest {
+    Mcib Mcib = 1;
+}
+
+message CreateMcibResponse {
+    trialblaze.api.contracts.message.v1.UUID McibId = 1;
+}
+
+message UpdateMcibRequest {
+    trialblaze.api.contracts.message.v1.UUID McibId = 1;
+    string TrialId = 2;
+    bytes EffectiveFrom = 3;
+    bytes EffectiveTo = 4;
+    trialblaze.api.contracts.message.v1.UserRef UpdatedBy = 5;
+}
+
+message UpdateMcibResponse {
+    Mcib UpdatedMcib = 1;
+}
+
+message GetVisitPriceRangesRequest {
+    trialblaze.api.contracts.message.v1.UUID McibId = 1;
+    string TrialId = 2;
+    trialblaze.api.contracts.message.v1.Pagination Page = 3;
+}
+
+message GetVisitPriceRangesResponse {
+    VisitPriceRange VisitPriceRange = 1;
+}
+
+message GetVisitPriceRangeHistoriesRequest {
+    trialblaze.api.contracts.message.v1.UUID McibId = 1;
+    trialblaze.api.contracts.message.v1.UUID VdId = 2;
+    string TrialId = 3;
+    trialblaze.api.contracts.message.v1.Pagination Page = 4;
+}
+
+message GetVisitPriceRangeHistoriesResponse {
+    VisitPriceRangeHistory VisitPriceRangeHistory = 1;
+}
+
+message UpdateVisitPriceRangesRequest {
+    VisitPriceRange NewVisitPriceRange = 1;
+}
+
+message UpdateVisitPriceRangesResponse {
+    VisitPriceRange NewVisitPriceRange = 1;
+}
+
+message GetVisitProcedurePriceRangesRequest {
+    trialblaze.api.contracts.message.v1.UUID McibId = 1;
+    trialblaze.api.contracts.message.v1.UUID VdId = 2;
+    string TrialId = 3;
+}
+
+message GetVisitProcedurePriceRangesResponse {
+    ProcedurePriceRange NewProcedurePriceRange = 1;
+}
+
+message GetVisitProcedurePriceRangeHistoriesRequest {
+    trialblaze.api.contracts.message.v1.UUID McibId = 1;
+    trialblaze.api.contracts.message.v1.UUID VpdId = 2;
+    string TrialId = 3;
+    trialblaze.api.contracts.message.v1.Pagination Page = 4;
+}
+
+message GetVisitProcedurePriceRangeHistoriesResponse {
+    ProcedurePriceRangeHistory ProcedurePriceRangeHistory = 1;
+}
+
+message UpdateVisitProcedurePriceRangesRequest {
+    ProcedurePriceRange NewProcedurePriceRange = 1;
+}
+
+message UpdateVisitProcedurePriceRangesResponse {
+    ProcedurePriceRange NewProcedurePriceRange = 1;
+}
+
+message StartReviewMcibRequest {
+    trialblaze.api.contracts.message.v1.UUID McibId = 1;
+    string TrialId = 2;
+    trialblaze.api.contracts.message.v1.UserRef UpdatedBy = 3;
+}
+
+message StartReviewMcibResponse {
+    trialblaze.api.contracts.message.v1.UUID McibId = 1;
+}
+
+message CancelMcibReviewRequest {
+    trialblaze.api.contracts.message.v1.UUID McibId = 1;
+    string TrialId = 2;
+    trialblaze.api.contracts.message.v1.UserRef UpdatedBy = 3;
+}
+
+message CancelMcibReviewResponse {
+    trialblaze.api.contracts.message.v1.UUID McibId = 1;
+}
+
+message PublishMcibRequest {
+    trialblaze.api.contracts.message.v1.UUID McibId = 1;
+    string TrialId = 2;
+    trialblaze.api.contracts.message.v1.UserRef UpdatedBy = 3;
+}
+
+message PublishMcibResponse {
+    trialblaze.api.contracts.message.v1.UUID McibId = 1;
+}
