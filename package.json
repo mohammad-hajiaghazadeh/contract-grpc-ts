@@ -1,5 +1,5 @@
 {
-  "name": "grpc-contract-ts",
+  "name": "contract-grpc-ts",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
